@@ -44,6 +44,7 @@ router.post('/create', authenticateToken, (req,res) =>
     const newList = ListModel({
         'creator' : req.user.username,
         'listName' : req.body.listName,
+        'canShare' : req.body.canShare,
         'items' : req.body.items
     });
 
@@ -54,10 +55,10 @@ router.post('/create', authenticateToken, (req,res) =>
 router.get('/:id', authenticateToken, async (req, res) =>
 {
     const list = await ListModel.findById(req.params.id);
-    if(list.creator == req.user.username)
+    if(list.canShare || list.creator == req.user.username)
     res.send(list);
     else
-    res.status(401).send({'msg' : 'not your list'});
+    res.send({'msg' : 'not your list'});
 })
 
 router.get('/', authenticateToken, async (req, res) =>

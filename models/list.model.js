@@ -11,6 +11,11 @@ const ListSchema = mongoose.Schema({
         required : true
     },
 
+    canShare : {
+        type : Boolean,
+        require : true
+    },
+
     items : {
         type : Array,
         required : false
